@@ -1,0 +1,100 @@
+﻿@* @model List<CoffeeShop.Models.BillsModel>
+ *@
+
+ @using System.Data;
+@model DataTable;
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '@TempData["SuccessMessage"]',
+            showConfirmButton: false,
+            timer: 2500
+        });
+    </script>
+}
+
+
+
+<h1 align="center"><b>Bill List</b></h1>
+<a asp-action="AddEditBills" asp-controller="Bills">
+    <button class="btn btn-primary">Add Bill </button>
+
+</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+        <tr>
+            @* <th scope="col">BillID </th> *@
+            <th scope="col">BillNumber  </th>
+            <th scope="col">BillDate   </th>
+            <th scope="col">CustomerName  </th>
+            <th scope="col">TotalAmount   </th>
+            <th scope="col">Discount  </th>
+            <th scope="col">NetAmount   </th>
+            <th scope="col">UserName</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+
+          @if(Model.Rows.Count > 0)
+          {
+              foreach (DataRow o in Model.Rows)
+        {
+            <tr>
+              @*   <td scope="col">@o["BillID"] </td> *@
+                <td scope="col">@o["BillNumber"] </td>
+                <td scope="col">@o["BillDate"]  </td>
+                <td scope="col">@o["CustomerName"] </td>
+                <td scope="col">@o["TotalAmount" ]</td>
+                <th scope="col">@o["Discount"]  </th>
+                <th scope="col">@o["NetAmount"]   </th>
+                <td scope="col">@o["UserName"]</td>
+                <td>
+                        <a asp-action="BillsEdit" asp-controller="Bills" asp-route-BillID="@o["BillID"]" class="btn btn-success">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            
+                        </a>
+
+                        <a href="javascript:void(0);" class="btn btn-danger" onclick="deleteBill('@o["BillID"]')">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                </td>
+            </tr>
+            }
+          
+          }
+       
+        
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    function deleteBill(billId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/Bills/Delete?BillID=' + billId;
+            }
+        });
+    }
+</script>
+

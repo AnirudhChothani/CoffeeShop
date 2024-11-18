@@ -1,0 +1,158 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout_Login.cshtml";
+}
+
+@model CoffeeShop.Models.UserLoginModel
+
+@if (TempData["ErrorLogin"] != null)
+{
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            Swal.fire({
+                icon: 'error',
+                title: 'Login Failed',
+                text: '@TempData["ErrorLogin"]',
+                confirmButtonText: 'Try Again',
+                customClass: {
+                    confirmButton: 'btn btn-primary'
+                },
+                buttonsStyling: false
+            });
+        });
+    </script>
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Shop Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> <!-- Include SweetAlert2 -->
+
+    <style>
+        body {
+            background-image: url('../image/bg.jpeg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            height: 100vh;
+            width: 100%;
+        }
+
+        .login-box {
+            background-color: rgba(206, 202, 202, 0.8);
+            opacity: 1;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h2 {
+            font-family: 'Georgia', serif;
+            margin-bottom: 30px;
+            color: #4b3832;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            h2 img {
+                margin-right: 10px;
+            }
+
+        .btn-primary {
+            background-color: #6f4e37;
+            border-color: #6f4e37;
+        }
+
+            .btn-primary:hover {
+                background-color: #5a3b2c;
+                border-color: #5a3b2c;
+                background-color: rgb(67 20 7);
+            }
+
+        /* Password toggle icon */
+        .input-group-text {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container d-flex align-items-center justify-content-center">
+        <div class="login-box">
+          
+            <h3 class="text-center" style="font-family: Georgia, serif; font-weight: 600;">
+             <i class="fas fa-coffee" style="margin-right: 10px; color: #6f4e37;"></i>
+                Coffee Shop Login
+            </h3>
+
+            <form id="loginForm" asp-action="UserLogin" asp-controller="Home" novalidate>
+                <div class="form-group">
+                    <label for="username">UserName</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>
+                    <div class="invalid-feedback">
+                        Please enter your username.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="togglePassword">
+                                👁️
+                            </span>
+                        </div>
+                        <div class="invalid-feedback">
+                            Please enter your password.
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" >Login</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Form validation
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                var form = document.getElementById('loginForm');
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            }, false);
+        })();
+
+        // Password visibility toggle
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            const passwordField = document.getElementById('password');
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            this.textContent = this.textContent === '👁️' ? '👁️‍🗨️' : '👁️';
+        });
+
+        // Move focus to password field on Enter key press
+        document.getElementById('username').addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent form submission
+                document.getElementById('password').focus(); // Move focus to password field
+            }
+        });
+    </script>
+</body>
+</html>

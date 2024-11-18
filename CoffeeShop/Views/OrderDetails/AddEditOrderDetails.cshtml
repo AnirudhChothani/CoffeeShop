@@ -1,0 +1,113 @@
+﻿@model OrderDetailsModel;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Order Details</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="card-body form-container">
+        <h1 class="card-title text-center">Add Order Details</h1>
+        <!-- Vertical Form -->
+        <form class="row g-3 needs-validation" id="orderDetailsForm" asp-action="Save" method="post" >
+           <input type="hidden" asp-for="OrderDetailID" />
+            <div class="col-12">
+                <label for="inputUserId" class="form-label">Customer Name</label>
+                <select class="form-control" asp-for="OrderID">
+                    <option value="">Select Customer</option>
+                    @foreach (var user in ViewBag.OrderList)
+                    {
+                        <option value="@user.OrderID">@user.CustomerName</option>
+                    }
+                </select>
+                <span class="text text-danger" asp-validation-for="OrderID"></span>
+            </div>
+
+
+
+
+            <div class="col-12">
+                <label for="inputUserId" class="form-label">Product Name</label>
+                <select class="form-control" asp-for="ProductID">
+                    <option value="">Select Product</option>
+                    @foreach (var user in ViewBag.ProductList)
+                    {
+                        <option value="@user.ProductID">@user.ProductName</option>
+                    }
+                </select>
+                <span class="text text-danger" asp-validation-for="ProductID"></span>
+            </div>
+
+           
+
+            <div class="col-12">
+                <label for="inputQuantity" class="form-label fw-black fs-5">Quantity</label>
+                <input type="number" class="form-control" id="inputQuantity" name="Quantity" asp-for="Quantity" placeholder="Quantity" oninput="calculateTotalAmount()">
+                <span class="text-danger" asp-validation-for="Quantity"></span>
+            </div>
+
+            <div class="col-12">
+                <label for="inputAmount" class="form-label fw-black fs-5">Amount</label>
+                <input type="number" class="form-control" id="inputAmount" name="Amount" asp-for="Amount" placeholder="Amount" oninput="calculateTotalAmount()">
+                <span class="text-danger" asp-validation-for="Amount"></span>
+            </div>
+
+            <div class="col-12">
+                <label for="inputTotalAmount" class="form-label fw-black fs-5">Total Amount</label>
+                <input type="number" class="form-control" id="inputTotalAmount" name="TotalAmount" asp-for="TotalAmount" placeholder="Total Amount" readonly>
+                <span class="text-danger" asp-validation-for="TotalAmount"></span>
+            </div>
+
+            <script>
+                function calculateTotalAmount() {
+                    const quantity = parseFloat(document.getElementById('inputQuantity').value) || 0;
+                    const amount = parseFloat(document.getElementById('inputAmount').value) || 0;
+                    const totalAmount = quantity * amount;
+                    document.getElementById('inputTotalAmount').value = totalAmount.toFixed(2); // Update total amount
+                }
+            </script>
+
+
+            <div class="col-12">
+                <label for="inputUserId" class="form-label">User Name</label>
+                <select class="form-control" asp-for="UserID">
+                    <option value="">Select User</option>
+                    @foreach (var user in ViewBag.UserList)
+                    {
+                        <option value="@user.UserID">@user.UserName</option>
+                    }
+                </select>
+                <span class="text text-danger" asp-validation-for="UserID"></span>
+            </div>
+
+
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a asp-action="OrderDetailList" asp-controller="OrderDetails" class="btn btn-secondary">Cancel </a>
+            </div>
+        </form>
+    </div>
+
+   
+</body>
+</html>

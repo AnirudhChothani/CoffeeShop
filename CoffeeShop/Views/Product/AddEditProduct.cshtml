@@ -1,0 +1,93 @@
+﻿@model ProductModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+   
+
+    <!-- Custom CSS -->
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body >
+    
+   
+    <div class="card-body form-container">
+        <h1 class="card-title text-center">Add Product</h1>
+       @*  <h1 class="card-title text-center">@((Model.ProductID == null) ? "Add New Product" : "Edit Product")</h1> *@
+
+        <!-- Vertical Form -->
+        <form class="row g-3 needs-validation" id="productForm" asp-action="ProductSave" asp-controller="Product" method="post">
+            <input type="hidden" asp-for="ProductID" />
+            <div class="col-12">
+                <label for="inputName4" class="form-label">Product Name</label>
+                <input type="text" class="form-control" id="inputName4" asp-for="ProductName">
+                <span class="text text-danger" asp-validation-for="ProductName"></span>
+            </div>
+
+            <div class="col-12">
+                <label for="inputPrice4" class="form-label">Product Price</label>
+                <input type="text" class="form-control" id="inputPrice4" asp-for="ProductPrice">
+                <span class="text text-danger" asp-validation-for="ProductPrice"></span>
+            </div>
+
+            <div class="col-12">
+                <label for="inputCode4" class="form-label">Product Code</label>
+                <input type="text" class="form-control" id="inputCode4" asp-for="ProductCode">
+                <span class="text text-danger" asp-validation-for="ProductCode"></span>
+            </div>
+
+            <div class="col-12">
+                <label for="inputDescription" class="form-label">Description</label>
+                <input type="text" class="form-control" id="inputDescription" asp-for="Description">
+                <span class="text text-danger" asp-validation-for="Description"></span>
+            </div>
+
+          
+            <div class="col-12">
+                <label for="inputUserId" class="form-label">User Name</label>
+            <select class="form-control" asp-for="UserID">
+                <option value="">Select User</option>
+                @foreach (var user in ViewBag.UserList)
+                {
+                    <option value="@user.UserID">@user.UserName</option>
+                }
+            </select>
+                <span class="text text-danger" asp-validation-for="UserID"></span>
+            </div>
+
+         
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a asp-action="ProductList" asp-controller="Product" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+   
+</body>
+</html>
+
+    
+
+
+
+
+

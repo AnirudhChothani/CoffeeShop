@@ -1,0 +1,95 @@
+﻿@* @model List<CoffeeShop.Models.OrderModel>*@
+
+
+ @model DataTable;
+ @using System.Data;
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '@TempData["SuccessMessage"]',
+            showConfirmButton: false,
+            timer: 2500
+        });
+    </script>
+}
+
+
+
+
+<h1 align="center"><b>Order List</b></h1>
+<a asp-action="AddEditOrder" asp-controller="Order">
+    <button class="btn btn-primary">Add Order </button>
+
+</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+           @*  <th scope="col">OrderID</th> *@
+            <th scope="col">OrderDate </th>
+            <th scope="col">CustomerName  </th>
+            <th scope="col">PaymentMode  </th>
+            <th scope="col">TotalAmount  </th>
+            <th scope="col">ShippingAddress </th>
+            <th scope="col">UserName </th>
+            <th>Action</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @if(Model.Rows.Count > 0){
+            foreach (DataRow o in Model.Rows)
+        {
+            <tr>
+               @*  <td scope="col">@o["OrderID"]</td> *@
+                <td scope="col">@o["OrderDate"]</td>
+                <td scope="col">@o["CustomerName"] </td>
+                <td scope="col">@o["PaymentMode"]</td>
+                <td scope="col">@o["TotalAmount"]</td>
+                <td scope="col">@o["ShippingAddress"] </td>
+                <td scope="col">@o["UserName"]</td>
+                <td>
+                        <a asp-action="OrderEdit" asp-controller="Order" asp-route-OrderID="@o["OrderID"]" class="btn btn-success">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+
+                        <a href="javascript:void(0);" class="btn btn-danger" onclick="deleteOrder('@o["OrderID"]')">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                </td>
+
+
+            </tr>
+        }
+
+        }
+       
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    function deleteOrder(orderId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/Order/Delete?OrderID=' + orderId;
+            }
+        });
+    }
+</script>

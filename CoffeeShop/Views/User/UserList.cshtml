@@ -1,0 +1,106 @@
+﻿@* @model List<CoffeeShop.Models.UserModel>
+ *@
+
+ @model DataTable;
+ @using System.Data;
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '@TempData["SuccessMessage"]',
+            showConfirmButton: false,
+            timer: 2500
+        });
+    </script>
+}
+
+
+
+
+<h1 align="center" ><b>User List</b></h1>
+<a asp-action="AddEditUser" asp-controller="User">
+    <button class="btn btn-primary">Add User</button>
+
+</a>
+<table class="table table-striped ">
+    <thead>
+        <tr>
+           @*  <th scope="col">UserId</th> *@
+            <th scope="col">UserName </th>
+            <th scope="col">Email </th>
+            <th scope="col">Password</th>
+            <th scope="col">MobileNo</th>
+            <th scope="col">Address</th>
+            <th scope="col">IsActive</th>
+            <th>Action</th>
+
+        </tr>
+    </thead>
+    <tbody>
+         @if(Model.Rows.Count > 0){
+             foreach (DataRow u in Model.Rows)
+         {
+                string password = u["Password"].ToString();
+                string mobileNumber = u["MobileNo"].ToString();
+
+                string maskedPassword = password.Length >= 4
+                ? password.Substring(0, 2) + new string('*', password.Length - 3) + password.Substring(password.Length - 1)
+                : password;
+
+                string maskedMobileNumber = mobileNumber.Length >= 10
+                ? mobileNumber.Substring(0, 2) + new string('*', mobileNumber.Length - 3) + mobileNumber.Substring(mobileNumber.Length - 1)
+                : mobileNumber;
+            <tr>
+              @*   <td scope="col">@u["UserID"]</td> *@
+                <td scope="col">@u["UserName"]</td>
+                <td scope="col">@u["Email"]</td>
+                <td>@maskedPassword</td>
+                <td>@maskedMobileNumber</td>
+                @* <td scope="col">@u["Password"]</td> *@
+                @* <td scope="col">@u["MobileNo"]</td> *@
+                <td scope="col">@u["Address"]</td>
+                <td scope="col">@u["IsActive"]</td>
+                <td>
+                        <a asp-action="UserEdit" asp-controller="User" asp-route-UserID="@u["UserID"]" class="btn btn-success">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+
+                        <a href="javascript:void(0);" class="btn btn-danger" onclick="deleteUser('@u["UserID"]')">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+
+                    </td>
+
+
+            </tr>
+        }
+        }
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    function deleteUser(userId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/User/Delete?UserID=' + userId;
+            }
+        });
+    }
+</script>

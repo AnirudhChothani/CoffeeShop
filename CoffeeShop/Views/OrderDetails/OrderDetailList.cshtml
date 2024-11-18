@@ -1,0 +1,93 @@
+﻿@* @model List<CoffeeShop.Models.OrderDetailsModel>
+ *@
+
+ @using System.Data;
+@model DataTable;
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '@TempData["SuccessMessage"]',
+            showConfirmButton: false,
+            timer: 2500
+        });
+    </script>
+}
+
+
+
+<h1 align="center"><b>OrderDetail List</b></h1>
+<a asp-action="AddEditOrderDetails" asp-controller="OrderDetails">
+    <button class="btn btn-primary">Add Order Detail</button>
+
+</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+          @*   <th scope="col">OrderDetailID</th> *@
+            <th scope="col">CustomerName </th>
+            <th scope="col">ProductName </th>
+            <th scope="col">Quantity </th>
+            <th scope="col">Amount </th>
+            <th scope="col">Total Amount</th>
+            <th scope="col">UserName</th>
+            <th>Action</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+         @if(Model.Rows.Count > 0){
+             foreach (DataRow o in Model.Rows)
+        {
+            <tr>
+                @* <td scope="col">@o["OrderDetailID"]</td> *@
+                <td scope="col">@o["CustomerName"]</td>
+                <td scope="col">@o["ProductName"]</td>
+                <td scope="col">@o["Quantity"]</td>
+                <td scope="col">@o["Amount"]</td>
+                <th scope="col">@o["TotalAmount"] </th>
+                <td scope="col">@o["UserName"]</td>
+                <td>
+                        <a asp-action="OrderDetailsEdit" asp-controller="OrderDetails" asp-route-OrderDetailID="@o["OrderDetailID"]" class="btn btn-success">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+
+                        <a href="javascript:void(0);" class="btn btn-danger" onclick="deleteOrderDetail('@o["OrderDetailID"]')">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                </td>
+
+
+            </tr>
+        }
+         }
+        
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    function deleteOrderDetail(orderdetailId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/OrderDetails/Delete?OrderDetailID=' + orderdetailId;
+            }
+        });
+    }
+</script>

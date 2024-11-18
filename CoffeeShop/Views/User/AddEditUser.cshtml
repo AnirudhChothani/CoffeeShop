@@ -1,0 +1,88 @@
+﻿@model UserModel;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add User</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="card-body form-container">
+        <h1 class="card-title text-center">Add User</h1>
+        <!-- Vertical Form -->
+        <form class="row g-3 needs-validation" id="userForm" asp-action="UserSave" asp-controller="User" method="post">
+            <input type="hidden" asp-for="UserID"  />
+           
+            <div class="col-12">
+                <label for="inputUserName" class="form-label">User Name</label>
+                <input type="text" class="form-control" id="inputUserName" asp-for="UserName">
+                <span class="text text-danger" asp-validation-for="UserName"></span>
+            </div>
+
+            <div class="col-12">
+                <label for="inputEmail" class="form-label">Email</label>
+                <input type="email" class="form-control" id="inputEmail" asp-for="Email">
+                <span class="text text-danger" asp-validation-for="Email"></span>
+            </div>
+
+            <div class="col-12">
+                <label for="inputPassword" class="form-label">Password</label>
+                <input  class="form-control" id="inputPassword" asp-for="Password">
+                <span class="text text-danger" asp-validation-for="Password"></span>
+            </div>
+
+            <div class="col-12">
+                <label for="inputMobileNo" class="form-label">Mobile No</label>
+                <input type="text" class="form-control" id="inputMobileNo" asp-for="MobileNo">
+                <span class="text text-danger" asp-validation-for="MobileNo"></span>
+            </div>
+
+          
+
+            <div class="col-12">
+                <label for="inputAddress" class="form-label">Address</label>
+                <textarea class="form-control" id="inputAddress"  rows="3" asp-for="Address"></textarea>
+                <span class="text text-danger" asp-validation-for="Address"></span>
+            </div>
+
+            <div class="col-12">
+                <label for="inputIsActive" class="form-label">Is Active</label>
+                <select class="form-select" id="inputIsActive" asp-for="IsActive">
+                    <option value="" disabled selected>Select status</option>
+                    <option value="True">True</option>
+                    <option value="False">False</option>
+                </select>
+                <span class="text text-danger" asp-validation-for="IsActive"></span>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a asp-action="UserList" asp-controller="User" class="btn btn-secondary">Cancel</a>
+               
+            </div>
+        </form>
+    </div>
+
+   
+</body>
+</html>
+
+
+

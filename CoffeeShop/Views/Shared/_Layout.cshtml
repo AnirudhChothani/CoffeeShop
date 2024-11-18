@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CoffeeShop</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/CoffeeShop.styles.css" asp-append-version="true" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+   @*  Sweet Alert..! *@
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm  navbar navbar-light bg-light  border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+@* 
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index" style="font-family: cursive; font-size: 20px;">
+                    <img src="~/image/logo.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
+                    CoffeeShop
+                </a> *@
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index" style="font-family: cursive; font-size: 20px;">
+                  <i class="fas fa-coffee" style="margin-right: 5px;"></i>
+                      CoffeeShop
+                </a>
+
+               
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item " style="font-family: serif; font-size: 20px;">
+                            <a class="nav-link text-dark"  asp-area="" asp-controller="Home" asp-action="HomePage">Home</a>
+                        </li>
+                        <li class="nav-item" style="font-family: serif; font-size:20px;">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="ProductList">Product</a>
+                        </li>
+                        <li class="nav-item" style="font-family: serif; font-size:20px;">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="UserList">User</a>
+                        </li>
+                        <li class="nav-item" style="font-family: serif; font-size:20px;">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="OrderList">
+                               Order
+                            </a>
+                        </li>
+                        <li class="nav-item" style="font-family: serif; font-size:20px;">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="OrderDetails" asp-action="OrderDetailList">OrderDetails</a>
+                        </li>
+                        <li class="nav-item" style="font-family: serif; font-size:20px;">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Bills" asp-action="BillsList">Bills</a>
+                        </li>
+
+                        
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <form asp-area="" asp-controller="Home" asp-action="Logout" method="post" class="form-inline" style="font-family: cursive; font-size: 20px;">
+                                <button type="submit" class="text-dark btn btn-outline-success">
+                                    Logout
+                                    <i class="fas fa-sign-out-alt" style="margin-right: 5px;"></i>
+                                  
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - CoffeeShop - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    
+    
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script> 
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

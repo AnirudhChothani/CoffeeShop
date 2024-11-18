@@ -1,0 +1,118 @@
+﻿@model BillsModel;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Bill Details</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="card-body form-container">
+        <h1 class="card-title text-center">Add Bill Details</h1>
+        <!-- Vertical Form -->
+        <form class="row g-3 needs-validation" id="billDetailsForm" asp-action="BillsSave" method="post">
+            <input type="hidden" asp-for="BillID"/>
+            <div class="col-12">
+                <label for="inputBillNumber" class="form-label">Bill Number</label>
+                <input type="text" class="form-control" id="inputBillNumber" asp-for="BillNumber" >
+                <span class="text text-danger" asp-validation-for="BillNumber"></span>
+                
+            </div>
+            <div class="col-12">
+                <label for="inputBillDate" class="form-label">Bill Date</label>
+                <input type="date" class="form-control" asp-for="BillDate" max="@DateTime.Now.ToString("yyyy-MM-dd")" id="inputBillDate" >
+                <span class="text text-danger"  asp-validation-for="BillDate"></span>
+
+            </div>
+            <div class="col-12">
+                <label for="inputUserId" class="form-label">Customer Name</label>
+                <select class="form-control" asp-for="OrderID">
+                    <option value="">Select Customer</option>
+                    @foreach (var user in ViewBag.OrderList)
+                    {
+                        <option value="@user.OrderID">@user.CustomerName</option>
+                    }
+                </select>
+                <span class="text text-danger" asp-validation-for="OrderID"></span>
+            </div>
+
+
+            <div class="col-12">
+                <label for="inputTotalAmount" class="form-label">Total Amount</label>
+                <input type="text" class="form-control" asp-for="TotalAmount" id="inputTotalAmount" oninput="calculateNetAmount()">
+                <span class="text text-danger" asp-validation-for="TotalAmount"></span>
+            </div>
+
+            <div class="col-12">
+                <label for="inputDiscount" class="form-label">Discount (%)</label>
+                <input type="text" class="form-control" asp-for="Discount" id="inputDiscount" oninput="calculateNetAmount()">
+                <span class="text text-danger" asp-validation-for="Discount"></span>
+            </div>
+
+            <div class="col-12">
+                <label for="inputNetAmount" class="form-label">Net Amount</label>
+                <input type="text" class="form-control" asp-for="NetAmount" id="inputNetAmount" readonly>
+                <span class="text text-danger" asp-validation-for="NetAmount"></span>
+            </div>
+
+            <script>
+                function calculateNetAmount() {
+                    const totalAmount = parseFloat(document.getElementById('inputTotalAmount').value) || 0;
+                    const discountPercentage = parseFloat(document.getElementById('inputDiscount').value) || 0;
+
+                    if (discountPercentage < 0 || discountPercentage > 100) {
+                        alert("Please enter a discount percentage between 0 and 100.");
+                        document.getElementById('inputDiscount').value = '';
+                        document.getElementById('inputNetAmount').value = totalAmount.toFixed(2);
+                        return;
+                    }
+
+                    const discountAmount = totalAmount * (discountPercentage / 100);
+                    const netAmount = totalAmount - discountAmount;
+                    document.getElementById('inputNetAmount').value = netAmount.toFixed(2); // Update net amount
+                }
+            </script>
+
+
+
+            <div class="col-12">
+                <label for="inputUserId" class="form-label">User Name</label>
+                <select class="form-control" asp-for="UserID">
+                    <option value="">Select User</option>
+                    @foreach (var user in ViewBag.UserList)
+                    {
+                        <option value="@user.UserID">@user.UserName</option>
+                    }
+                </select>
+                <span class="text text-danger" asp-validation-for="UserID"></span>
+            </div>
+
+            
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a asp-action="BillsList" asp-controller="Bills"    class="btn btn-secondary">Cancel</a>
+               
+            </div>
+        </form>
+    </div>
+</body>
+</html>
